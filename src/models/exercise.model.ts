@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const ExerciseSchema = new mongoose.Schema({
-    exerciseName: {
+const ExerciseSchema = new Schema({
+    info: {
         title: { type: String, required: true },
         subtitle: { type: String, required: true},
         description: { type: String, required: true }
@@ -13,4 +13,4 @@ const ExerciseSchema = new mongoose.Schema({
     }
 })
 
-export const ExerciseModel = mongoose.model('Exercise', ExerciseSchema)
+export const ExerciseModel = model('Exercise', ExerciseSchema)
