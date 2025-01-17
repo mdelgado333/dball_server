@@ -6,6 +6,20 @@ const WorkoutSchema = new Schema({
         subtitle: { type: String, required: true},
         description: { type: String, required: true }
     },
+    dballInfo:{
+        vertical: { 
+            type: String,
+            rquired: true,
+            enum: ['ACADEMY', 'VERT'],
+            default: 'ACADEMY'
+        },
+        typeOfContent: {
+            type: String,
+            required: true,
+            enum: ['SHOOTING', 'DRIBBLING', 'FINISHING', 'ISO', 'POST', 'LOWER', 'UPPER', 'CARDIO'],
+            default: 'SHOOTING'
+        }
+    },
     arrayOfExercises: [
         {
             type: Schema.Types.ObjectId,
