@@ -1,5 +1,5 @@
 import express from 'express'
-import { getExerciseById, getExercises } from '../helpers/exercise.helper'
+import { createExercise, deleteExerciseById, getExerciseById, getExercises } from '../helpers/exercise.helper'
 
 export const getAllExercises = async (req: express.Request, res: express.Response) => {
     try {
@@ -18,6 +18,64 @@ export const getExercise = async (req: express.Request, res: express.Response) =
         const exercise = await getExerciseById(id)
 
         return res.status(200).json(exercise)
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400)
+    }
+}
+
+export const newExercise = async (req: express.Request, res: express.Response) => {
+    try {
+        const {title, subtitle, description, sets, reps, rest, vertical, typeOfContent } = req.body
+
+        const exercise = await createExercise({
+            info:{ title, subtitle, description },
+            details:{ sets, reps, rest },
+            dballInfo: { vertical, typeOfContent }
+    })
+
+        return res.status(200).json(exercise)
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400)
+    }
+}
+
+export const updateExercise = async (req: express.Request, res: express.Response) => {
+    try {
+        const { id } = req.params
+        const { title, subtitle, description, sets, reps, rest, vertical, typeOfContent } = req.body
+
+        const exercise = await getExerciseById(id)
+
+        exercise.info.title = title
+        exercise.info.subtitle = subtitle
+        exercise.info.description = description
+
+        exercise.details.sets = sets
+        exercise.details.reps = reps
+        exercise.details.rest = rest
+
+        exercise.dballInfo.vertical = vertical
+        exercise.dballInfo.typeOfContent = typeOfContent
+
+        await exercise.save()
+
+        return res.status(200).json(exercise)
+        
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400)
+    }
+}
+
+export const deleteExercise = async (req: express.Request, res: express.Response) => {
+    try {
+        const { id } = req.params
+
+        const deletedExercise = deleteExerciseById(id)
+
+        return res.json(deletedExercise)
     } catch (error) {
         console.log(error)
         res.sendStatus(400)
