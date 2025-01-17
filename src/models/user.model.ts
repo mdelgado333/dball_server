@@ -7,6 +7,11 @@ const UserSchema = new Schema({
         password: { type: String, required: true, select: false },
         salt: { type: String, select: false },
         sessionToken: { type: String, select: false }
+    },
+    role: {
+        type: String,
+        enum: ['FREE', 'PAID', 'ADMIN'],
+        default: 'FREE'
     }
 })
 
