@@ -9,7 +9,10 @@ const ExerciseSchema = new Schema({
     details: {
         sets: { type: Number, required: true },
         reps: { type: Number, required: true },
-        rest: { type: String, required: true }
+        rest: { 
+            minutes: { type: Number, required: true },
+            seconds: { type: Number, required: true }
+        },
     },
     dballInfo:{
         vertical: { 
