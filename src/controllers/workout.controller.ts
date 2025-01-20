@@ -43,6 +43,24 @@ export const newWorkout = async (req: express.Request, res: express.Response) =>
     }
 }
 
+export const addExerciseToWorkout = async (req: express.Request, res: express.Response) => {
+    try {
+        const { id } = req.params
+        const { newExercise } = req.body
+
+        const updatedWorkout = await getWorkoutById(id)
+
+        updatedWorkout.arrayOfExercises.push(newExercise)
+
+        await updatedWorkout.save()
+        
+        return res.status(200).json(updatedWorkout)
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400)
+    }
+}
+
 export const updateWorkout = async (req: express.Request, res: express.Response) => {
     try {
         const { id } = req.params

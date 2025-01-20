@@ -1,10 +1,11 @@
 import express from "express"
-import { deleteWorkout, getAllWorkouts, getWorkout, newWorkout, updateWorkout } from "../controllers/workout.controller"
+import { addExerciseToWorkout, deleteWorkout, getAllWorkouts, getWorkout, newWorkout, updateWorkout } from "../controllers/workout.controller"
 
 export default (router: express.Router) => {
     router.get('/workouts', getAllWorkouts)
     router.get('/workouts/:id', getWorkout)
-    router.post('/workouts/newWorkout', newWorkout)
+    router.post('/workouts/newWorkout', newWorkout) //funciona
+    router.patch('/workouts/:id/addExercise', addExerciseToWorkout)
     router.patch('/workouts/:id', updateWorkout)
     router.delete('/workouts/:id', deleteWorkout)
 }
