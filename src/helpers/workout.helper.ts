@@ -1,4 +1,4 @@
-import { WorkoutModel } from "models/Workout.model";
+import { WorkoutModel } from "../models/Workout.model";
 
 export const getWorkouts = () => WorkoutModel.find()
 export const getWorkoutById = (id: string) => WorkoutModel.findById(id)

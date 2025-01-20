@@ -1,6 +1,6 @@
 import express from 'express'
 
-import { createWorkout, deleteWorkoutById, getWorkoutById, getWorkouts } from 'helpers/workout.helper'
+import { createWorkout, deleteWorkoutById, getWorkoutById, getWorkouts } from '../helpers/workout.helper'
 
 export const getAllWorkouts = async (req: express.Request, res: express.Response) => {
     try {
@@ -25,12 +25,15 @@ export const getWorkout = async (req: express.Request, res: express.Response) =>
 
 export const newWorkout = async (req: express.Request, res: express.Response) => {
     try {
-        const { title, subtitle, description, vertical, typeOfContent, exercise1, exercise2, exercise3, exercise4, exercise5 } = req.body
+        const { title, subtitle, description, vertical, typeOfContent, exercise1, exercise2, exercise3 } = req.body
+        console.log("EXERCISE 1: ", exercise1)
+        console.log("EXERCISE 2: ", exercise2)
+        console.log("EXERCISE 3: ", exercise3)
 
         const workout = await createWorkout({
                     info:{ title, subtitle, description },
                     dballInfo: { vertical, typeOfContent },
-                    arrayOfExercises: { exercise1, exercise2, exercise3, exercise4, exercise5 }
+                    arrayOfExercises: [ exercise1, exercise2, exercise3 ] 
             })
 
         return res.status(200).json(workout)
@@ -43,25 +46,23 @@ export const newWorkout = async (req: express.Request, res: express.Response) =>
 export const updateWorkout = async (req: express.Request, res: express.Response) => {
     try {
         const { id } = req.params
-        const { title, subtitle, description, vertical, typeOfContent, exercise1, exercise2, exercise3, exercise4, exercise5 } = req.body
+        const { title, subtitle, description, vertical, typeOfContent, exercise1, exercise2, exercise3 } = req.body
 
         const updatedWorkout = await getWorkoutById(id)
 
-        updatedWorkout.info.title = title
-        updatedWorkout.info.subtitle = subtitle
-        updatedWorkout.info.description = description
+        // updatedWorkout.info.title = title
+        // updatedWorkout.info.subtitle = subtitle
+        // updatedWorkout.info.description = description
 
-        updatedWorkout.dballInfo.vertical = vertical
-        updatedWorkout.dballInfo.typeOfContent = typeOfContent
+        // updatedWorkout.dballInfo.vertical = vertical
+        // updatedWorkout.dballInfo.typeOfContent = typeOfContent
 
-        updatedWorkout.arrayOfExercises[1] = exercise1
-        updatedWorkout.arrayOfExercises[2] = exercise2
-        updatedWorkout.arrayOfExercises[3] = exercise3
-        updatedWorkout.arrayOfExercises[4] = exercise4
-        updatedWorkout.arrayOfExercises[5] = exercise5
+        // updatedWorkout.arrayOfExercises[1] = exercise1
+        // updatedWorkout.arrayOfExercises[2] = exercise2
+        // updatedWorkout.arrayOfExercises[3] = exercise3
 
 
-        await updatedWorkout.save()
+        // await updatedWorkout.save()
 
         return res.status(200).json(updatedWorkout)
     } catch (error) {
