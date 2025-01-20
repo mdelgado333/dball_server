@@ -58,6 +58,24 @@ export const addExerciseToWorkout = async (req: express.Request, res: express.Re
     }
 }
 
+export const deleteExerciseFromWorkout = async (req: express.Request, res: express.Response) => {
+    try {
+        const { id } = req.params
+        const { idx } = req.body
+
+        const workoutWithDeletedExercise = await getWorkoutById(id)
+
+        workoutWithDeletedExercise.arrayOfExercises.splice(idx, 1)
+
+        await workoutWithDeletedExercise.save()
+
+        return res.status(200).json(workoutWithDeletedExercise)
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400)
+    }
+}
+
 export const updateWorkout = async (req: express.Request, res: express.Response) => {
     try {
         const { id } = req.params
