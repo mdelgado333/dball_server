@@ -22,4 +22,4 @@ const MicroLearningSchema = new Schema({
     }
 })
 
-export const MicroLearningModel = model('MicroLearning', MicroLearningSchema)
+export const MicroLearning = model('MicroLearning', MicroLearningSchema)
