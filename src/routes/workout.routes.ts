@@ -4,9 +4,9 @@ import { addExerciseToWorkout, deleteExerciseFromWorkout, deleteWorkout, getAllW
 export default (router: express.Router) => {
     router.get('/workouts', getAllWorkouts)
     router.get('/workouts/:id', getWorkout)
-    router.post('/workouts/newWorkout', newWorkout) //funciona
-    router.patch('/workouts/:id/addExercise', addExerciseToWorkout) //funciona
-    router.patch('/workouts/:id/deleteExerciseFromWorkout', deleteExerciseFromWorkout) //funciona
-    router.patch('/workouts/:id', updateWorkout) //funciona
+    router.post('/workouts/newWorkout', newWorkout)
+    router.patch('/workouts/:id/addExercise', addExerciseToWorkout)
+    router.patch('/workouts/:id/deleteExerciseFromWorkout', deleteExerciseFromWorkout)
+    router.patch('/workouts/:id', updateWorkout)
     router.delete('/workouts/:id', deleteWorkout)
 }
