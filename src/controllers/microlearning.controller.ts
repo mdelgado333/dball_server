@@ -3,10 +3,9 @@ import { createMicroLearning, getMicrolearningById, getMicroLearnings, updateMic
 
 export const newMicroLearning = async (req: express.Request, res: express.Response) => {
 
-    const { title, subtitle, description, vertical, typeOfContent } = req.params
+    const { title, subtitle, description, vertical, typeOfContent } = req.body
 
     try {        
-
         const newmicrolearning = await createMicroLearning({
             info: { title,
                     subtitle,
@@ -77,6 +76,9 @@ export const updateMicroLearning = async (req: express.Request, res: express.Res
             typeOfContent
         }
         })
+
+        updatedmicrolearning.save()
+
         return res.status(200).json(updatedmicrolearning)
 
     } catch (error) {
