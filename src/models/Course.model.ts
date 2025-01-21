@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose'
 
-export const LessonSchema = new Schema({
+export const CourseSchema = new Schema({
     info: {
         title: { type: String, required: true },
         subtitle: { type: String, required: true},
@@ -28,4 +28,4 @@ export const LessonSchema = new Schema({
     ]
 })
 
-export const LessonModel = model('Lesson', LessonSchema)
+export const Course = model('Lesson', CourseSchema)
