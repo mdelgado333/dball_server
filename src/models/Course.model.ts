@@ -28,4 +28,4 @@ export const CourseSchema = new Schema({
     ]
 })
 
-export const Course = model('Lesson', CourseSchema)
+export const Course = model('Course', CourseSchema)

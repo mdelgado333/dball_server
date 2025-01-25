@@ -4,20 +4,15 @@ import { getWorkoutById } from 'helpers/workout.helper'
 
 export const newCourse = async (req: express.Request, res: express.Response) => {
     const { title, subtitle, description, vertical, typeOfContent, microlearning1 } = req.body
+    console.log(req.body)
     try {
         const course = await createCourse({
-            info:{
-                title,
-                subtitle,
-                description
-            },
-            dballInfo: {
-                vertical,
-                typeOfContent
-            },
+            info:{ title, subtitle, description },
+            dballInfo: { vertical, typeOfContent },
             arrayOfMicroLearnings: [ microlearning1 ]
         })
-        res.status(200).json(course)
+        console.log(course)
+        return res.status(200).json(course)
     } catch (error) {
         console.log(error)
         res.sendStatus(400)
@@ -82,9 +77,9 @@ export const addMicroLearningToCourse = async (req: express.Request, res: expres
 
         const updatedCourse = await getCourseById(id)
         updatedCourse.arrayOfMicroLearnings.push(newMicroLearning)
-        updatedCourse.save()
+        await updatedCourse.save()
 
-        return res.status(200).json(updateCourse)
+        return res.status(200).json(updatedCourse)
         
     } catch (error) {
         
@@ -102,8 +97,8 @@ export const deleteMicroLeraningFromCourse = async (req: express.Request, res: e
 
         const updatedCourse = await getCourseById(id)
         updatedCourse.arrayOfMicroLearnings.splice(idx, 1)
-        updatedCourse.save()
-        
+        await updatedCourse.save()
+        return res.status(200).json(updatedCourse)
     } catch (error) {
         
         console.log(error)

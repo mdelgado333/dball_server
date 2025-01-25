@@ -5,6 +5,7 @@ import users from './user.routes'
 import exercises from './exercise.routes'
 import workouts from './workout.routes'
 import microlearnings from './microlearning.routes'
+import courses from './course.routes'
 
 const router = express.Router()
 
@@ -14,5 +15,6 @@ export default (): express.Router => {
     exercises(router)
     workouts(router)
     microlearnings(router)
+    courses(router)
     return router
 }
