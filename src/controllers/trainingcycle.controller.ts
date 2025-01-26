@@ -107,7 +107,7 @@ export const addWorkoutToTrainingCycle = async (req: express.Request, res: expre
 
 }
 
-export const deleteWorkoutFromCycle = async (req: express.Request, res: express.Response) => {
+export const deleteWorkoutFromTrainingCycle = async (req: express.Request, res: express.Response) => {
 
     const { id } = req.params
     const { idx } = req.body
@@ -131,7 +131,7 @@ export const deleteWorkoutFromCycle = async (req: express.Request, res: express.
 export const deleteTrainingCycle = async (req: express.Request, res: express.Response) => {
 
     const { id } = req.params
-    
+
     try {
         
         const deletedTrainingCycle = await deleteTrainingCycleById(id)
