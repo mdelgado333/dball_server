@@ -5,6 +5,8 @@ import { update } from 'lodash'
 export const newTrainingCycle = async (req: express.Request, res: express.Response) => {
 
     const { title, subtitle, description, vertical, typeOfContent, workout } = req.body
+
+    console.log('holaaaaaaaaa')
     
     try {
     
@@ -18,9 +20,7 @@ export const newTrainingCycle = async (req: express.Request, res: express.Respon
                 vertical,
             typeOfContent
             },
-            arrayOfWorkouts: {
-                workout
-            }
+            arrayOfWorkouts: [ workout ]
         })
 
         return res.status(200).json(newTrainingCycle)

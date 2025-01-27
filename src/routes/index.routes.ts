@@ -6,6 +6,7 @@ import exercises from './exercise.routes'
 import workouts from './workout.routes'
 import microlearnings from './microlearning.routes'
 import courses from './course.routes'
+import trainingcycles from './trainingcycle.routes'
 
 const router = express.Router()
 
@@ -16,5 +17,6 @@ export default (): express.Router => {
     workouts(router)
     microlearnings(router)
     courses(router)
+    trainingcycles(router)
     return router
 }
