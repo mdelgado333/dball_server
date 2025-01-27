@@ -28,10 +28,12 @@ const UnitSchema = new Schema({
             enum: ['SHOOTING', 'DRIBBLING', 'FINISHING', 'ISO', 'POST', 'LOWER', 'UPPER', 'CARDIO'],
             default: 'SHOOTING' }
     },
-    microLearnings: {
+    microLearnings: [
+    {
         type: Schema.Types.ObjectId,
         ref: 'microlearning'
     }
+]
 })
 
 export const Unit = model('Unit', UnitSchema)
