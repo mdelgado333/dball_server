@@ -3,13 +3,12 @@ import { createCourse, getCourseById, getCourses, updateCourseById, deleteCourse
 import { getWorkoutById } from 'helpers/workout.helper'
 
 export const newCourse = async (req: express.Request, res: express.Response) => {
-    const { title, subtitle, description, vertical, typeOfContent, microlearning1 } = req.body
+    const { title, subtitle, description, vertical, typeOfContent } = req.body
     console.log(req.body)
     try {
         const course = await createCourse({
             info:{ title, subtitle, description },
-            dballInfo: { vertical, typeOfContent },
-            arrayOfMicroLearnings: [ microlearning1 ]
+            dballInfo: { vertical, typeOfContent }
         })
         console.log(course)
         return res.status(200).json(course)
@@ -68,15 +67,15 @@ export const updateCourse = async (req: express.Request, res: express.Response) 
     }
 }
 
-export const addMicroLearningToCourse = async (req: express.Request, res: express.Response) => {
+export const addUnitToCourse = async (req: express.Request, res: express.Response) => {
 
     const { id } = req.params
-    const { newMicroLearning } = req.body
+    const { newUnit } = req.body
 
     try {
 
         const updatedCourse = await getCourseById(id)
-        updatedCourse.arrayOfMicroLearnings.push(newMicroLearning)
+        updatedCourse.units.push(newUnit)
         await updatedCourse.save()
 
         return res.status(200).json(updatedCourse)
@@ -88,7 +87,7 @@ export const addMicroLearningToCourse = async (req: express.Request, res: expres
     }
 }
 
-export const deleteMicroLeraningFromCourse = async (req: express.Request, res: express.Response) => {
+export const deleteUnitFromCourse = async (req: express.Request, res: express.Response) => {
 
     const { id } = req.params
     const { idx } = req.body
@@ -96,7 +95,7 @@ export const deleteMicroLeraningFromCourse = async (req: express.Request, res: e
     try {
 
         const updatedCourse = await getCourseById(id)
-        updatedCourse.arrayOfMicroLearnings.splice(idx, 1)
+        updatedCourse.units.splice(idx, 1)
         await updatedCourse.save()
         return res.status(200).json(updatedCourse)
     } catch (error) {

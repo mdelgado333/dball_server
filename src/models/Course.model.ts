@@ -20,10 +20,10 @@ export const CourseSchema = new Schema({
             default: 'SHOOTING'
         }
     },
-    arrayOfMicroLearnings: [
+    units: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'microlearning'
+            ref: 'unit'
         }
     ]
 })
