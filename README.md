@@ -62,8 +62,14 @@
 | `PATCH`| `/user/:id/editProfile` | editAnyUserProfile | True | Admin | 
 | `DELETE`| `/user/:id/editProfile` | deleteAnyUserProfile | True | Admin | 
 
-### Micro-Learning
+### Learning
 | Method | URL | Description | Protected | Roles |
+| `GET` | `/learning` | display all learnings | True | All | 
+| `POST` | `/learning/newLearning` | create a learning | True | ADMIN | 
+| `GET` | `/learning/:id` | display a learning | True | All | 
+| `PATCH` | `/learning/:id/editLearning` | edit the contents of a learning | True | ADMIN | 
+| `DELETE` | `/learning/:id/deleteLearning` | delete a learning | True | ADMIN | 
+
 
 ### Unit
 | Method | URL | Description | Protected | Roles |
