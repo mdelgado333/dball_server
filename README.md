@@ -93,8 +93,8 @@
 | `POST` | `/course/newCourse` | create a course | True | ADMIN | 
 | `GET` | `/course/:id` | display a course | True | All | 
 | `PATCH` | `/course/:id/editCourse` | edit the contents of a course | True | ADMIN | 
-| `PATCH` | `/unit/:id/addUnit` | add a Unit to the Course | True | ADMIN | 
-| `PATCH` | `/unit/:id/deleteUnit` | edit the contents of a unit | True | ADMIN | 
+| `PATCH` | `/unit/:id/addUnit` | add a Unit to the Course | True | ADMIN |
+| `PATCH` | `/unit/:id/deleteUnit` | delete a Unit from the Course | True | ADMIN |
 | `DELETE` | `/unit/:id/deleteCourse` | delete a unit | True | ADMIN | 
 
 ### Exercise
@@ -119,5 +119,14 @@
 | `PATCH` | `/workout/:id/deleteExercise` | delete a Exercise from the Workout | True | ADMIN | 
 | `DELETE` | `/workout/:id/deleteWorkout` | delete a Workout | True | ADMIN | 
 
-### Training Cycle
+### Cycle
+
 | Method | URL | Description | Protected | Roles |
+|--------|-----|-------------|-----------|-------|
+| `GET` | `/cycle` | display all cycles | True | All | 
+| `POST` | `/cycle/newCycle` | create a cycle | True | ADMIN | 
+| `GET` | `/cycle/:id` | display a cycle | True | All | 
+| `PATCH` | `/cycle/:id/editCycle` | edit the contents of a cycle | True | ADMIN | 
+| `PATCH` | `/cycle/:id/addWorkout` | add a Workout to the Cycle | True | ADMIN | 
+| `PATCH` | `/cycle/:id/deleteWorkout` | delete a Workout from the Cycle | True | ADMIN | 
+| `DELETE` | `/unit/:id/deleteCourse` | delete a unit | True | ADMIN | 
