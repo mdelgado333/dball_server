@@ -110,6 +110,14 @@
 ### Workout
 
 | Method | URL | Description | Protected | Roles |
+|--------|-----|-------------|-----------|-------|
+| `GET` | `/workout` | display all workouts | True | All | 
+| `POST` | `/workout/newWorkout` | create a workout | True | ADMIN | 
+| `GET` | `/workout/:id` | display a workout | True | All | 
+| `PATCH` | `/workout/:id/editWorkout` | edit the contents of a workout | True | ADMIN | 
+| `PATCH` | `/workout/:id/addExercise` | add a Exercise to the Workout | True | ADMIN | 
+| `PATCH` | `/workout/:id/deleteExercise` | delete a Exercise from the Workout | True | ADMIN | 
+| `DELETE` | `/workout/:id/deleteWorkout` | delete a Workout | True | ADMIN | 
 
 ### Training Cycle
 | Method | URL | Description | Protected | Roles |
