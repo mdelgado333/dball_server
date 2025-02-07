@@ -54,5 +54,28 @@
 
 | Method | URL | Description | Protected | Roles |
 |--------|-----|-------------|-----------|-------|
-| `GET` | `/user/profile` | Profile | True | All | 
-| `PUT`| `/user/editProfile` | EditProfile | False | All | 
+| `GET` | `/user/profile` | userOwnProfile | True | All | 
+| `PATCH`| `/user/profile/editProfile` | EditOwnProfile | True | All | 
+| `DELETE`| `/user/deleteProfile` | deleteOwnProfile | True | All | 
+| `GET`| `/user` | allProfiles | True | Admin | 
+| `GET`| `/user/:id` | anyUserProfile | True | Admin | 
+| `PATCH`| `/user/:id/editProfile` | editAnyUserProfile | True | Admin | 
+| `DELETE`| `/user/:id/editProfile` | deleteAnyUserProfile | True | Admin | 
+
+### Micro-Learning
+| Method | URL | Description | Protected | Roles |
+
+### Unit
+| Method | URL | Description | Protected | Roles |
+
+### Course
+| Method | URL | Description | Protected | Roles |
+
+### Exercise
+| Method | URL | Description | Protected | Roles |
+
+### Workout
+| Method | URL | Description | Protected | Roles |
+
+### Training Cycle
+| Method | URL | Description | Protected | Roles |
