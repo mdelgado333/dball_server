@@ -44,6 +44,7 @@
 ## Routes (Back-end)
 
 ### Auth
+
 | Method | URL | Description | Protected | Roles |
 |--------|-----|-------------|-----------|-------|
 | `POST` | `/auth/signup` | Signup | False |  | 
@@ -63,6 +64,7 @@
 | `DELETE`| `/user/:id/editProfile` | deleteAnyUserProfile | True | Admin | 
 
 ### Learning
+
 | Method | URL | Description | Protected | Roles |
 |--------|-----|-------------|-----------|-------|
 | `GET` | `/learning` | display all learnings | True | All | 
@@ -72,17 +74,28 @@
 | `DELETE` | `/learning/:id/deleteLearning` | delete a learning | True | ADMIN | 
 
 ### Unit
+
 | Method | URL | Description | Protected | Roles |
+|--------|-----|-------------|-----------|-------|
 | `GET` | `/unit` | display all units | True | All | 
 | `POST` | `/unit/newUnit` | create a unit | True | ADMIN | 
 | `GET` | `/unit/:id` | display a unit | True | All | 
 | `PATCH` | `/unit/:id/editUnit` | edit the contents of a unit | True | ADMIN | 
 | `PATCH` | `/unit/:id/addLearning` | add a Learning to the Unit | True | ADMIN | 
-| `PATCH` | `/unit/:id/deleteLearning` | edit the contents of a unit | True | ADMIN | 
-| `DELETE` | `/unit/:id/deleteUnit` | delete a learning | True | ADMIN | 
+| `PATCH` | `/unit/:id/deleteLearning` | delete a Learning from the Unit | True | ADMIN | 
+| `DELETE` | `/unit/:id/deleteUnit` | delete a unit | True | ADMIN | 
 
 ### Course
+
 | Method | URL | Description | Protected | Roles |
+|--------|-----|-------------|-----------|-------|
+| `GET` | `/course` | display all courses | True | All | 
+| `POST` | `/course/newCourse` | create a course | True | ADMIN | 
+| `GET` | `/course/:id` | display a course | True | All | 
+| `PATCH` | `/course/:id/editCourse` | edit the contents of a course | True | ADMIN | 
+| `PATCH` | `/unit/:id/addUnit` | add a Unit to the Course | True | ADMIN | 
+| `PATCH` | `/unit/:id/deleteUnit` | edit the contents of a unit | True | ADMIN | 
+| `DELETE` | `/unit/:id/deleteCourse` | delete a unit | True | ADMIN | 
 
 ### Exercise
 | Method | URL | Description | Protected | Roles |
