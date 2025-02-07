@@ -71,9 +71,15 @@
 | `PATCH` | `/learning/:id/editLearning` | edit the contents of a learning | True | ADMIN | 
 | `DELETE` | `/learning/:id/deleteLearning` | delete a learning | True | ADMIN | 
 
-
 ### Unit
 | Method | URL | Description | Protected | Roles |
+| `GET` | `/unit` | display all units | True | All | 
+| `POST` | `/unit/newUnit` | create a unit | True | ADMIN | 
+| `GET` | `/unit/:id` | display a unit | True | All | 
+| `PATCH` | `/unit/:id/editUnit` | edit the contents of a unit | True | ADMIN | 
+| `PATCH` | `/unit/:id/addLearning` | add a Learning to the Unit | True | ADMIN | 
+| `PATCH` | `/unit/:id/deleteLearning` | edit the contents of a unit | True | ADMIN | 
+| `DELETE` | `/unit/:id/deleteUnit` | delete a learning | True | ADMIN | 
 
 ### Course
 | Method | URL | Description | Protected | Roles |
