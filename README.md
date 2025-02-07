@@ -98,9 +98,17 @@
 | `DELETE` | `/unit/:id/deleteCourse` | delete a unit | True | ADMIN | 
 
 ### Exercise
+
 | Method | URL | Description | Protected | Roles |
+|--------|-----|-------------|-----------|-------|
+| `GET` | `/exercise` | display all exercises | True | All |
+| `POST` | `/exercise/newExercise` | create a exercise | True | ADMIN |
+| `GET` | `/exercise/:id` | display a exercise | True | All |
+| `PATCH` | `/exercise/:id/editExercise` | edit the contents of a exercise | True | ADMIN |
+| `DELETE` | `/exercise/:id/deleteExercise` | delete a exercise | True | ADMIN |
 
 ### Workout
+
 | Method | URL | Description | Protected | Roles |
 
 ### Training Cycle
