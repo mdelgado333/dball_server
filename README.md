@@ -64,6 +64,7 @@
 
 ### Learning
 | Method | URL | Description | Protected | Roles |
+|--------|-----|-------------|-----------|-------|
 | `GET` | `/learning` | display all learnings | True | All | 
 | `POST` | `/learning/newLearning` | create a learning | True | ADMIN | 
 | `GET` | `/learning/:id` | display a learning | True | All | 
