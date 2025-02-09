@@ -1,6 +1,5 @@
 import express from 'express'
 import { createCourse, getCourseById, getCourses, updateCourseById, deleteCourseById } from '../helpers/course.helper'
-import { getWorkoutById } from 'helpers/workout.helper'
 
 export const newCourse = async (req: express.Request, res: express.Response) => {
     const { title, subtitle, description, vertical, typeOfContent } = req.body

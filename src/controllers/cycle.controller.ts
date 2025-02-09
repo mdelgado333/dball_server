@@ -1,6 +1,5 @@
 import express from 'express'
 import { createTrainingCycle, getTrainingCycleById, getTrainingCycles, deleteTrainingCycleById } from '../helpers/cycle.helper'
-import { update } from 'lodash'
 
 export const newTrainingCycle = async (req: express.Request, res: express.Response) => {
 

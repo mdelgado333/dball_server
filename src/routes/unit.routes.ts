@@ -95,9 +95,9 @@ export default (router: express.Router) => {
 
         try {
 
-            const updatedUnit = await Unit.findByIdAndUpdate(id,
-                { $push: { learnings: learning } },
-                { new: true})
+            const updatedUnit = await Unit.findByIdAndUpdate(id, {
+                $push: { learnings: learning }
+            }, { new: true})
 
             return res.status(200).json(updatedUnit)
         
@@ -134,7 +134,7 @@ export default (router: express.Router) => {
         const { id } = req.params
 
         try {
-            
+
             const deletedLearning = await Unit.findOneAndDelete({ _id: id })
             return res.status(200).json(deletedLearning)
 
