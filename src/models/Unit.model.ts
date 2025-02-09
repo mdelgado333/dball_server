@@ -28,7 +28,7 @@ const UnitSchema = new Schema({
             enum: ['SHOOTING', 'DRIBBLING', 'FINISHING', 'ISO', 'POST', 'LOWER', 'UPPER', 'CARDIO'],
             default: 'SHOOTING' }
     },
-    microLearnings: [
+    learnings: [
     {
         type: Schema.Types.ObjectId,
         ref: 'microlearning'

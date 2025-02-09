@@ -63,8 +63,6 @@ export default (router: express.Router) => {
                 dballInfo: { vertical, typeOfContent }
             }, {new: true})
 
-            await updatedExercise.save()
-
             return res.status(200).json(updatedExercise)
         
         } catch (error) {
