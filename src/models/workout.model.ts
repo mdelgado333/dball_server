@@ -28,4 +28,4 @@ const WorkoutSchema = new Schema({
     ]
 })
 
-export const WorkoutModel = model('Workout', WorkoutSchema)
+export const Workout = model('Workout', WorkoutSchema)

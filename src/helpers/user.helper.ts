@@ -1,12 +1,12 @@
-import { UserModel } from "../models/User.model"
+import { User } from "../models/User.model"
 
-export const getUsers = () => UserModel.find()
-export const getUserByEmail = (email: string) => UserModel.findOne({ email })
-export const getUserBySessionToken = (sessionToken: string) => UserModel.findOne({
+export const getUsers = () => User.find()
+export const getUserByEmail = (email: string) => User.findOne({ email })
+export const getUserBySessionToken = (sessionToken: string) => User.findOne({
     'authentication.sessionToken': sessionToken
 })
-export const getUserById = (id: string) => UserModel.findById(id)
-export const createUser = (values: Record<string, any>) => new UserModel(values)
+export const getUserById = (id: string) => User.findById(id)
+export const createUser = (values: Record<string, any>) => new User(values)
     .save().then((user) => user.toObject())
-export const updateUserById = (id: string, values: Record<string, any>) => UserModel.findByIdAndUpdate(id, values)
-export const deleteUserById = (id: string) => UserModel.findOneAndDelete({ _id: id })
+export const updateUserById = (id: string, values: Record<string, any>) => User.findByIdAndUpdate(id, values)
+export const deleteUserById = (id: string) => User.findOneAndDelete({ _id: id })

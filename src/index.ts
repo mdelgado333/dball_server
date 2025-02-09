@@ -8,26 +8,11 @@ import mongoose from 'mongoose'
 
 import router from './routes/index.routes'
 
-const app = express()
-
-app.use(cors({
-    credentials: true
-}))
-
-app.use(compression())
-app.use(cookieParser())
-app.use(bodyParser.json())
+import { app } from './config/index'
 
 export const server = http.createServer(app)
 
-server.listen(8080, () => {
-    console.log('Server running on http://localhost:8080/')
-})
-
-const MONGO_URL = 'mongodb+srv://dballdesarrollatujuego:qDMykNCTOnsMpmSl@dball.4n1wm.mongodb.net/?retryWrites=true&w=majority&appName=DBALL'
-
-mongoose.Promise = Promise
-mongoose.connect(MONGO_URL)
-mongoose.connection.on('error', (error: Error) => console.log(error))
+import './server'
+import './db'
 
 app.use('/', router())

@@ -4,10 +4,11 @@ import authentication from './auth.routes'
 import users from './user.routes'
 import exercises from './exercise.routes'
 import workouts from './workout.routes'
-import microlearnings from './microlearning.routes'
+import learnings from './learning.routes'
 import courses from './course.routes'
-import trainingcycles from './trainingcycle.routes'
+import cycles from './cycle.routes'
 import units from './unit.routes'
+import upload from './upload.routes'
 
 const router = express.Router()
 
@@ -16,9 +17,10 @@ export default (): express.Router => {
     users(router)
     exercises(router)
     workouts(router)
-    microlearnings(router)
+    learnings(router)
     courses(router)
-    trainingcycles(router)
+    cycles(router)
     units(router)
+    upload(router)
     return router
 }

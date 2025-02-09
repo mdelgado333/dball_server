@@ -30,4 +30,4 @@ const ExerciseSchema = new Schema({
     },
 })
 
-export const ExerciseModel = model('Exercise', ExerciseSchema)
+export const Exercise = model('Exercise', ExerciseSchema)
