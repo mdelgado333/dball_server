@@ -1,6 +1,5 @@
 import { User } from "../models/User.model"
 
-export const getUsers = () => User.find()
 export const getUserByEmail = (email: string) => User.findOne({ email })
 export const getUserBySessionToken = (sessionToken: string) => User.findOne({
     'authentication.sessionToken': sessionToken
