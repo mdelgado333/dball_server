@@ -1,10 +1,10 @@
 import express from 'express'
-import { isAuthenticated, isOwner } from '../middlewares/index.middleware'
-import { User } from '../models/User.model'
+import { User} from '../models/User.model'
+import { auth } from '../middleware/auth.middleware'
 
 export default (router: express.Router) => {
 
-    router.get('/users', /*isAuthenticated,*/ async (req: express.Request, res: express.Response) => {
+    router.get('/users', auth, async (req: express.Request, res: express.Response) => {
 
         try {
 
@@ -18,7 +18,7 @@ export default (router: express.Router) => {
 
     })
 
-    router.patch('/users/:id', /*isAuthenticated, isOwner,*/ async (req: express.Request, res: express.Response) => {
+    router.patch('/users/:id', auth, async (req: express.Request, res: express.Response) => {
         
         const { id } = req.params
         const { username } = req.body
@@ -38,7 +38,7 @@ export default (router: express.Router) => {
 
     })
 
-    router.delete('/users/:id', /*isAuthenticated, isOwner,*/ async (req: express.Request, res: express.Response) => {
+    router.delete('/users/:id', auth, async (req: express.Request, res: express.Response) => {
         
         const { id } = req.params
 

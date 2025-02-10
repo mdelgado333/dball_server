@@ -1,18 +1,21 @@
-import { Schema, model } from 'mongoose'
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+import { userInfo } from '../interfaces/model.interfaces';
 
-const UserSchema = new Schema({
-    username: { type: String, required: true },
-    email: { type: String, required: true },
-    authentication: {
-        password: { type: String, required: true, select: false },
-        salt: { type: String, select: false },
-        sessionToken: { type: String, select: false }
-    },
-    role: {
-        type: String,
-        enum: ['FREE', 'PAID', 'ADMIN'],
-        default: 'FREE'
-    }
-})
+const UserSchema: mongoose.Schema<userInfo> = new mongoose.Schema({
+    username: { type: String },
+    name: { type: String, unique: true },
+    password: { type: String },
+});
 
-export const User = model('User', UserSchema)
+const saltRounds = 8
+
+UserSchema.pre('save', async function (next) {
+ const user = this;
+ if (user.isModified('password')) {
+   user.password = await bcrypt.hash(user.password, saltRounds);
+ }
+ next();
+});
+
+export const User = mongoose.model<userInfo>('User', UserSchema);
