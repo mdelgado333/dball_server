@@ -5,23 +5,45 @@ import { getErrorMessage } from '../utils/getErrorMessage';
 
 export default (router: express.Router) => {
 
-    router.post('/login', async (req: express.Request, res: express.Response) => {
+    router.post('/auth/register', async (req: express.Request, res: express.Response) => {
 
-        const { name, password } = req.body
+        const { username, email, password } = req.body
+        const salt = 13
+        const hash = await bcrypt.hash(password, salt)
+
+        try {
+            const newUser = await User.create({
+                username,
+                email,
+                password: hash
+            })
+
+            res.status(200).json(newUser)
+
+        } catch (error) {
+            res.status(500).send(getErrorMessage(error));
+        }
+
+    })
+
+    router.post('/auth/login', async (req: express.Request, res: express.Response) => {
+
+        const { email, password } = req.body
         
             try {
         
-                const foundUser = await User.findOne({ name: name });
-                const isMatch = bcrypt.compareSync(password, foundUser.password);
+                const user = await User.findOne({ email: email });
         
-                if (!foundUser) {
-                    throw new Error('Name of user is not correct');
+                if (!user) {
+                    throw new Error('Name of email is not correct');
                 }
+
+                const isMatch = bcrypt.compareSync(password, user.password);
 
                 if (!isMatch) {
                     throw new Error('Password is not correct');
                 } else {
-                    return res.status(200).send(foundUser).json(foundUser);
+                    return res.status(200).json(user);
                 }
               
             } catch (error) {
@@ -29,22 +51,5 @@ export default (router: express.Router) => {
             }
 
     })
-
-    router.post('/register', async (req: express.Request, res: express.Response) => {
-
-        const { name, password } = req.body
-    
-        try {
-            const newUser = new User({
-                name, password
-            })
-
-            res.status(200).send('Inserted successfully').json(newUser)
-
-        } catch (error) {
-            res.status(500).send(getErrorMessage(error));
-        }
-
-        })
 
 }

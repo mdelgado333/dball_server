@@ -4,7 +4,7 @@ import { auth } from '../middleware/auth.middleware'
 
 export default (router: express.Router) => {
 
-    router.get('/users', auth, async (req: express.Request, res: express.Response) => {
+    router.get('/users', async (req: express.Request, res: express.Response) => {
 
         try {
 
