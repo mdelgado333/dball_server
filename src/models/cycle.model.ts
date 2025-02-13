@@ -2,7 +2,7 @@ import { IStructure } from 'interfaces/model.interfaces';
 import { Schema, model } from 'mongoose';
 
 interface ICycle extends IStructure{
-  arrayOfWorkouts: Schema.Types.ObjectId[];  
+  workouts: Schema.Types.ObjectId[];
 }
 
 const CycleSchema = new Schema<ICycle>({
@@ -25,7 +25,7 @@ const CycleSchema = new Schema<ICycle>({
       default: 'SHOOTING'
     }
   },
-  arrayOfWorkouts: [
+  workouts: [
     {
       type: Schema.Types.ObjectId,
       ref: 'Workout' 
@@ -33,6 +33,6 @@ const CycleSchema = new Schema<ICycle>({
   ]
 }, { timestamps: true });  
 
-CycleSchema.index({ 'dballInfo.vertical': 1, 'dballInfo.typeOfContent': 1 });
+CycleSchema.index({ 'dballInfo.vertical': 1, 'dballInfo.typeOfContent': 1,  workouts: 1 });
 
 export const Cycle = model<ICycle>('Cycle', CycleSchema);
