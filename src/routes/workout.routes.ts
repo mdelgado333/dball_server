@@ -1,5 +1,5 @@
 import express from "express"
-import { Workout } from "../models/Workout.model"
+import { Workout } from "../models/workout.model"
 
 export default (router: express.Router) => {
 
@@ -29,10 +29,16 @@ export default (router: express.Router) => {
 
         try {
                 const workout = await Workout.findById(id)
-                return res.status(200).json(workout)
+                    .populate('arrayOfExercises', 'info title')
+                    .exec()
+
+                !workout
+                    ? res.status(404).json({ message: 'Workout not found' })
+                    : res.status(200).json(workout)
+
             } catch (error) {
-                console.log(error)
-                res.sendStatus(400)
+                console.log('Error fetching workout:', error)
+                res.status(500).json({ message: 'Internal Server Error' })
             }
 
     })
@@ -40,6 +46,8 @@ export default (router: express.Router) => {
     router.get('/workouts', async (req: express.Request, res: express.Response) => {
        
         try {
+            console.log("Received request at /workouts");  // Log request to see if it's being hit
+
 
                 const workouts = await Workout.find()
                 return res.status(200).json(workouts)
