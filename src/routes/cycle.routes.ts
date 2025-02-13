@@ -4,34 +4,56 @@ import { Workout } from '../models/workout.model'
 
 export default(router: express.Router) => {
 
+    router.get('/cycles', async (req: express.Request, res: express.Response) => {
+
+        const { page = 1, limit = 10 } = req.query; 
+
+        try {
+        
+            const [cycles, totalCount] = await Promise.all([
+                Cycle.find()
+                    .skip((Number(page) - 1) * Number(limit))
+                    .limit(Number(limit)),
+                Cycle.countDocuments()
+            ])
+            
+            res.status(200).json({ cycles, totalCount })
+            
+        } catch (error) {
+            console.log('Error fetching all cycles', error)
+            res.status(500).json({ message: 'Internal server error' })
+        }
+
+    })
+
     router.post('/cycles/newCycle', async (req: express.Request, res: express.Response) => {
     
         const { title, subtitle, description, vertical, typeOfContent } = req.body
-            
-        try {
+        
+        if (!title || !subtitle || !description || !vertical || !typeOfContent) {
+            return res.status(400).json({ message: 'All fields are required: title, subtitle, description, vertical, typeOfContent' });
+        }
+    
+        const validVerticals = ['ACADEMY', 'VERT'];
+        if (!validVerticals.includes(vertical)) {
+            return res.status(400).json({ message: 'Invalid value for vertical. Expected "ACADEMY" or "VERT".' });
+        }
+    
+        const validContentTypes = ['SHOOTING', 'DRIBBLING', 'FINISHING', 'ISO', 'POST', 'LOWER', 'UPPER', 'CARDIO'];
+        if (!validContentTypes.includes(typeOfContent)) {
+            return res.status(400).json({ message: 'Invalid value for typeOfContent. Choose from: SHOOTING, DRIBBLING, FINISHING, etc.' });
+        }
 
-            if (!title || !subtitle || !description || !vertical || !typeOfContent) {
-                return res.status(400).json({ message: 'All fields are required: title, subtitle, description, vertical, typeOfContent' });
-            }
+        try {
         
-            const validVerticals = ['ACADEMY', 'VERT'];
-            if (!validVerticals.includes(vertical)) {
-                return res.status(400).json({ message: 'Invalid value for vertical. Expected "ACADEMY" or "VERT".' });
-            }
-        
-            const validContentTypes = ['SHOOTING', 'DRIBBLING', 'FINISHING', 'ISO', 'POST', 'LOWER', 'UPPER', 'CARDIO'];
-            if (!validContentTypes.includes(typeOfContent)) {
-                return res.status(400).json({ message: 'Invalid value for typeOfContent. Choose from: SHOOTING, DRIBBLING, FINISHING, etc.' });
-            }
-        
-            const newCycle = Cycle.create({
+            const newCycle = await Cycle.create({
                 info: { title, subtitle, description },
                 dballInfo: { vertical, typeOfContent }
             })
     
             res.status(201).json({
                 nessage: 'Cycle created successfully',
-                cycle: newCycle
+                Cycle: newCycle
             })
     
         } catch (error) {
@@ -55,28 +77,6 @@ export default(router: express.Router) => {
         } catch (error) {
             console.log('Error fetching unit: ', error)
             res.sendStatus(500).json({ message: 'Internal server error' })
-        }
-
-    })
-
-    router.get('/cycles', async (req: express.Request, res: express.Response) => {
-
-        const { page = 1, limit = 10 } = req.query; 
-
-        try {
-        
-            const [cycles, totalCount] = await Promise.all([
-                Cycle.find()
-                    .skip((Number(page) - 1) * Number(limit))
-                    .limit(Number(limit)),
-                Cycle.countDocuments()
-            ])
-            
-            res.status(200).json({ cycles, totalCount })
-            
-        } catch (error) {
-            console.log('Error fetching all cycles', error)
-            res.status(500).json({ message: 'Internal server error' })
         }
 
     })
@@ -122,7 +122,7 @@ export default(router: express.Router) => {
             if(!workoutId) res.status(404).json({ message: 'Workout not found'})
     
             const updatedCycle = await Cycle.findByIdAndUpdate(id, {
-                $push : { wokrkouts: workout }
+                $push : { workouts: workout }
             }, { new: true })
     
             !updatedCycle

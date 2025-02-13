@@ -33,6 +33,6 @@ const CycleSchema = new Schema<ICycle>({
   ]
 }, { timestamps: true });  
 
-CycleSchema.index({ 'dballInfo.vertical': 1, 'dballInfo.typeOfContent': 1,  workouts: 1 });
+CycleSchema.index({ 'dballInfo.vertical': 1, 'dballInfo.typeOfContent': 1 });
 
 export const Cycle = model<ICycle>('Cycle', CycleSchema);
