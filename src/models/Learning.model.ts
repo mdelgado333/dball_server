@@ -1,25 +1,32 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model } from 'mongoose';
+import { IStructure } from '../interfaces/model.interfaces'
 
-const MicroLearningSchema = new Schema({
-    info: {
-        title: { type: String, required: true },
-        subtitle: { type: String, required: true},
-        description: { type: String, required: true }
+interface ILearning extends IStructure {
+
+}
+
+const LearningSchema = new Schema<ILearning>({
+  info: {
+    title: { type: String, required: true },
+    subtitle: { type: String, required: true },
+    description: { type: String, required: true, minlength: [10, 'Description must be at least 10 characters long'] }
+  },
+  dballInfo: {
+    vertical: {
+      type: String,
+      required: true,
+      enum: ['ACADEMY', 'VERT'],
+      default: 'ACADEMY'
     },
-    dballInfo:{
-        vertical: { 
-            type: String,
-            rquired: true,
-            enum: ['ACADEMY', 'VERT'],
-            default: 'ACADEMY'
-        },
-        typeOfContent: {
-            type: String,
-            required: true,
-            enum: ['SHOOTING', 'DRIBBLING', 'FINISHING', 'ISO', 'POST', 'LOWER', 'UPPER', 'CARDIO'],
-            default: 'SHOOTING'
-        }
+    typeOfContent: {
+      type: String,
+      required: true,
+      enum: ['SHOOTING', 'DRIBBLING', 'FINISHING', 'ISO', 'POST', 'LOWER', 'UPPER', 'CARDIO'],
+      default: 'SHOOTING'
     }
-})
+  }
+}, { timestamps: true });
 
-export const Learning = model('Learning', MicroLearningSchema)
+LearningSchema.index({ 'dballInfo.vertical': 1, 'dballInfo.typeOfContent': 1 });
+
+export const Learning = model<ILearning>('Learning', LearningSchema);
