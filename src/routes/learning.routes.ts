@@ -194,10 +194,10 @@ export default (router: express.Router) => {
     router.get('/categories/learnings', async (req: express.Request, res: express.Response) => {
         try {
             const categories = await Learning.distinct('dballInfo.typeOfContent');
-            return res.status(200).json(categories);
+            res.status(200).json(categories);
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: 'Error fetching categories' });
+            console.error('Error fetching categories', error);
+            res.status(500).json({ message: 'Internal server error' });
         }
     });
 
