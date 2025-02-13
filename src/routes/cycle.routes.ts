@@ -52,7 +52,7 @@ export default(router: express.Router) => {
             })
     
             res.status(201).json({
-                nessage: 'Cycle created successfully',
+                message: 'Cycle created successfully',
                 Cycle: newCycle
             })
     
@@ -69,6 +69,8 @@ export default(router: express.Router) => {
         try {
             
             const cycle = await Cycle.findById(id)
+                .populate('workouts', 'info title')
+                .exec()
 
             !cycle
                 ? res.status(404).json({ message: 'Cycle not found' })
