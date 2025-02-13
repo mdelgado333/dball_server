@@ -1,5 +1,6 @@
 import express from "express"
 import { Workout } from "../models/workout.model"
+import { Exercise } from '../models/exercise.model'
 
 export default (router: express.Router) => {
 
@@ -8,17 +9,34 @@ export default (router: express.Router) => {
         const { title, subtitle, description, vertical, typeOfContent } = req.body
 
         try {        
-                const newWorkout = new Workout({
-                    info:{ title, subtitle, description },
-                    dballInfo: { vertical, typeOfContent }
-                    })
 
-                await newWorkout.save()
-                return res.status(200).json(newWorkout)
+            if (!title || !subtitle || !description || !vertical || !typeOfContent) {
+                return res.status(400).json({ message: 'All fields are required: title, subtitle, description, vertical, typeOfContent' });
+            }
+        
+            const validVerticals = ['ACADEMY', 'VERT'];
+            if (!validVerticals.includes(vertical)) {
+                return res.status(400).json({ message: 'Invalid value for vertical. Expected "ACADEMY" or "VERT".' });
+            }
+        
+            const validContentTypes = ['SHOOTING', 'DRIBBLING', 'FINISHING', 'ISO', 'POST', 'LOWER', 'UPPER', 'CARDIO'];
+            if (!validContentTypes.includes(typeOfContent)) {
+                return res.status(400).json({ message: 'Invalid value for typeOfContent. Choose from: SHOOTING, DRIBBLING, FINISHING, etc.' });
+            }
+
+            const newWorkout = await Workout.create({
+                info:{ title, subtitle, description },
+                dballInfo: { vertical, typeOfContent }
+            })
+
+            res.status(201).json({
+                message: 'Workout created successfully',
+                workout: newWorkout
+            })
 
             } catch (error) {
-                console.log(error)
-                res.sendStatus(400)
+                console.log('Error creating workout', error)
+                res.sendStatus(500).json({ message: 'Internal server error' })
             }
 
     })
@@ -45,16 +63,22 @@ export default (router: express.Router) => {
 
     router.get('/workouts', async (req: express.Request, res: express.Response) => {
        
+        const { page = 1, limit = 10 } = req.query
+
         try {
-            console.log("Received request at /workouts");  // Log request to see if it's being hit
 
+                const [workouts, totalCount] = await Promise.all([
+                    Workout.find()
+                        .skip((Number(page) - 1) * Number(limit))
+                        .limit(Number(limit)),
+                    Workout.countDocuments()
+                ])
 
-                const workouts = await Workout.find()
-                return res.status(200).json(workouts)
+                res.status(200).json({ workouts, totalCount })
 
             } catch (error) {
-                console.log(error)
-                res.sendStatus(400)
+                console.log('Error when fetching all workouts', error)
+                res.sendStatus(400).json({ message: 'Internal server error' })
             }
     })
 
@@ -70,11 +94,13 @@ export default (router: express.Router) => {
                 dballInfo: { vertical, typeOfContent }
             }, { new: true })
 
-            return res.status(200).json(updatedWorkout)
+            !updatedWorkout
+                ? res.status(404).json({ message: 'Workout not found' })
+                : res.status(200).json({ message: 'Workout updated successfully', updatedWorkout})
 
         } catch (error) {
-            console.log(error)
-            return res.sendStatus(400)
+            console.log('Error updating workout', error)
+            return res.sendStatus(500).json({ message: 'Internal server error' })
         }
 
     })
@@ -82,20 +108,24 @@ export default (router: express.Router) => {
     router.patch('/workouts/:id/addExercise', async (req: express.Request, res: express.Response) => {
 
         const { id } = req.params
-        const { newExercise } = req.body
+        const { exercise } = req.body
 
         try {
-                
-        
-                const updatedWorkout = await Workout.findByIdAndUpdate(id, {
-                    $push : { arrayOfExercises: newExercise }
-                }, { new: true })        
 
-                return res.status(200).json(updatedWorkout)
+            const exerciseId = await Exercise.findById(exercise)
+            if (!exerciseId) res.status(404).json({ message: 'Exercise not found' })
+
+            const updatedWorkout = await Workout.findByIdAndUpdate(id, {
+                $push : { exercises: exercise }
+            }, { new: true })        
+
+            !updatedWorkout
+                ? res.status(404).json({ message: 'Workout not found' })
+                : res.status(200).json({ messsage: 'Exercise added to workout successfully', updatedWorkout })
 
             } catch (error) {
-                console.log(error)
-                res.sendStatus(400)
+                console.log('Error addng exercise to workout', error)
+                res.sendStatus(500).json({ message: 'Internal server error' })
             }
 
     })
@@ -108,15 +138,21 @@ export default (router: express.Router) => {
         try {
             
                 const updatedWorkout = await Workout.findById(id)
-        
-                updatedWorkout.arrayOfExercises.splice(idx, 1)
+
+                if (!updatedWorkout) res.status(404).json({ message: 'Workout not found' })
+
+                if (idx < 0 || idx >= updatedWorkout.exercises.length) {
+                    return res.status(400).json({ message: 'Invalid index' });
+                }
+
+                updatedWorkout.exercises.splice(idx, 1)
                 await updatedWorkout.save()
         
-                return res.status(200).json(updatedWorkout)
+                res.status(200).json({ message: 'Exercise deleted from workout successfully', updatedWorkout })
 
             } catch (error) {
-                console.log(error)
-                res.sendStatus(400)
+                console.log('Error deleting exercise from workout', error)
+                res.sendStatus(500).json({ message: 'Internal server error' })
             }
 
     })
@@ -128,11 +164,13 @@ export default (router: express.Router) => {
         try {
 
                 const deletedWorkout = await Workout.findOneAndDelete({ _id: id })
-                return res.json(deletedWorkout)
+                !deletedWorkout
+                    ? res.status(404).json({ message: 'Workout not found' })
+                    : res.status(200).json({ message: 'Workout successfully deleted', deletedWorkout })
                 
             } catch (error) {
-                console.log(error)
-                res.sendStatus(400)
+                console.log('Error deleting workout: ', error)
+                res.sendStatus(400).json({ message: 'Internal server error'})
             }
 
     })

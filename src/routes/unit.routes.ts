@@ -6,23 +6,23 @@ export default (router: express.Router) => {
     router.post('/units/newUnit', async (req: express.Request, res: express.Response) => {
 
         const { title, subtitle, description, vertical, typeOfContent } = req.body
-
-        if (!title || !subtitle || !description || !vertical || !typeOfContent) {
-            return res.status(400).json({ message: 'All fields are required: title, subtitle, description, vertical, typeOfContent' });
-        }
-    
-        const validVerticals = ['ACADEMY', 'VERT'];
-        if (!validVerticals.includes(vertical)) {
-            return res.status(400).json({ message: 'Invalid value for vertical. Expected "ACADEMY" or "VERT".' });
-        }
-    
-        const validContentTypes = ['SHOOTING', 'DRIBBLING', 'FINISHING', 'ISO', 'POST', 'LOWER', 'UPPER', 'CARDIO'];
-        if (!validContentTypes.includes(typeOfContent)) {
-            return res.status(400).json({ message: 'Invalid value for typeOfContent. Choose from: SHOOTING, DRIBBLING, FINISHING, etc.' });
-        }
         
             try {
         
+                if (!title || !subtitle || !description || !vertical || !typeOfContent) {
+                    return res.status(400).json({ message: 'All fields are required: title, subtitle, description, vertical, typeOfContent' });
+                }
+            
+                const validVerticals = ['ACADEMY', 'VERT'];
+                if (!validVerticals.includes(vertical)) {
+                    return res.status(400).json({ message: 'Invalid value for vertical. Expected "ACADEMY" or "VERT".' });
+                }
+            
+                const validContentTypes = ['SHOOTING', 'DRIBBLING', 'FINISHING', 'ISO', 'POST', 'LOWER', 'UPPER', 'CARDIO'];
+                if (!validContentTypes.includes(typeOfContent)) {
+                    return res.status(400).json({ message: 'Invalid value for typeOfContent. Choose from: SHOOTING, DRIBBLING, FINISHING, etc.' });
+                }
+
                 const newUnit = await Unit.create({
                     info: { title, subtitle, description },
                     dballInfo: { vertical, typeOfContent }
@@ -34,8 +34,8 @@ export default (router: express.Router) => {
                 })
                 
             } catch (error) {
-                console.log(error)
-                res.sendStatus(400)
+                console.log('Error creating unit: ', error)
+                res.sendStatus(500).json({ message: 'Internal server error' })
             }
 
     })
@@ -129,10 +129,10 @@ export default (router: express.Router) => {
 
             !updatedUnit
                 ? res.status(404).json({ message: 'Unit not found' })
-                : res.status(200).json({ message: 'Unit updated successfully', updatedUnit })
+                : res.status(200).json({ message: 'Learning added to unit successfully', updatedUnit })
         
         } catch (error) {
-            console.error('Error updating unit:', error);
+            console.error('Error adding learning to unit:', error);
             res.status(500).json({ message: 'Internal server error' })
         }
 
@@ -147,7 +147,7 @@ export default (router: express.Router) => {
 
             const updatedUnit = await Unit.findById(id);
 
-            if (!updatedUnit) return res.status(404).json({ message: 'Unit not found' });
+            if (!updatedUnit) res.status(404).json({ message: 'Unit not found' });
 
             if (idx < 0 || idx >= updatedUnit.learnings.length) {
                 return res.status(400).json({ message: 'Invalid index' });
@@ -156,7 +156,7 @@ export default (router: express.Router) => {
             updatedUnit.learnings.splice(idx, 1);
             await updatedUnit.save();
 
-            res.status(200).json({ message: 'Unit updated successfully', updatedUnit });
+            res.status(200).json({ message: 'Learning deleted from unit successfully', updatedUnit });
         
         } catch (error) {
             console.error('Error deleting learning from unit:', error);

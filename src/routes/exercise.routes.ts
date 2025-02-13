@@ -123,7 +123,7 @@ export default (router: express.Router) => {
             }
     }) 
 
-    router.get('/exercises/categories', async (req: express.Request, res: express.Response) => {
+    router.get('/categories/exercise', async (req: express.Request, res: express.Response) => {
         try {
             const categories = await Exercise.distinct('dballInfo.typeOfContent');
             res.status(200).json(categories);

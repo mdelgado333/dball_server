@@ -2,7 +2,7 @@ import { IStructure } from '../interfaces/model.interfaces';
 import { Schema, model } from 'mongoose';
 
 interface IWorkout extends IStructure {
-  arrayOfExercises: Schema.Types.ObjectId[];  
+  exercises: Schema.Types.ObjectId[];  
 }
 
 const WorkoutSchema = new Schema<IWorkout>({
@@ -25,7 +25,7 @@ const WorkoutSchema = new Schema<IWorkout>({
       default: 'SHOOTING'
     }
   },
-  arrayOfExercises: [
+  exercises: [
     {
       type: Schema.Types.ObjectId,
       ref: 'Exercise' 
