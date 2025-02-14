@@ -1,5 +1,5 @@
 import express from 'express'
-import { User} from '../models/User.model'
+import { User} from '../models/user.model'
 import { auth } from '../middleware/auth.middleware'
 
 export default (router: express.Router) => {

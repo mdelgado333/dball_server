@@ -1,5 +1,7 @@
 import http from 'http'
 import router from './routes/index.routes'
+import dotenv from 'dotenv';
+dotenv.config();
 
 import { app } from './config/index'
 
