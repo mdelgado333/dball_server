@@ -8,18 +8,21 @@ export default (router: express.Router) => {
 
     router.post('/auth/register', async (req: express.Request, res: express.Response) => {
 
-        const { username, email, password } = req.body
+        const { email, password } = req.body
         const salt = 13
         const hash = await bcrypt.hash(password, salt)
 
         try {
             const newUser = await User.create({
-                username,
                 email,
                 password: hash
             })
 
-            res.status(200).json(newUser)
+            const token = jwt.sign({ id: newUser._id, email: newUser.email }, process.env.JWT_SECRET!, {
+                expiresIn: '1h', // expiration time (1 hour)
+            });
+
+            res.status(200).json({ token, newUser })
 
         } catch (error) {
             res.status(500).send(getErrorMessage(error));
