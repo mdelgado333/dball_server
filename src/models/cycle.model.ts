@@ -1,7 +1,7 @@
-import { IStructure } from 'interfaces/model.interfaces';
+import { IStructure, IBooleanInfo } from 'interfaces/model.interfaces';
 import { Schema, model } from 'mongoose';
 
-interface ICycle extends IStructure{
+interface ICycle extends IStructure, IBooleanInfo {
   workouts: Schema.Types.ObjectId[];
 }
 
@@ -24,6 +24,14 @@ const CycleSchema = new Schema<ICycle>({
       enum: ['SHOOTING', 'DRIBBLING', 'FINISHING', 'ISO', 'POST', 'LOWER', 'UPPER', 'CARDIO'],
       default: 'SHOOTING'
     }
+  },
+  isRecent: {
+    type: Boolean,
+    default: true
+  },
+  isFeatured: {
+    type: Boolean,
+    default: true
   },
   workouts: [
     {

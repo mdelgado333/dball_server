@@ -1,8 +1,9 @@
-import { IStructure } from 'interfaces/model.interfaces';
+import { IStructure,IBooleanInfo } from 'interfaces/model.interfaces';
 import { Schema, model } from 'mongoose';
 
-interface ICourse extends IStructure {
-  units: Schema.Types.ObjectId[];  
+
+interface ICourse extends IStructure, IBooleanInfo {
+  units: Schema.Types.ObjectId[];
 }
 
 const CourseSchema = new Schema<ICourse>({
@@ -24,6 +25,14 @@ const CourseSchema = new Schema<ICourse>({
       enum: ['SHOOTING', 'DRIBBLING', 'FINISHING', 'ISO', 'POST', 'LOWER', 'UPPER', 'CARDIO'],
       default: 'SHOOTING'
     }
+  },
+  isRecent: {
+    type: Boolean,
+    default: true
+  },
+  isFeatured: {
+    type: Boolean,
+    default: true
   },
   units: [
     {

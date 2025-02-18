@@ -1,20 +1,7 @@
-import { IStructure } from 'interfaces/model.interfaces';
+import { IStructure, IDetails } from 'interfaces/model.interfaces';
 import { Schema, model } from 'mongoose';
 
-interface IRest {
-    minutes: number;
-    seconds: number;
-  }
-  
-  interface IDetails {
-    sets: number;
-    reps: number;
-    rest: IRest;
-  }
-
-interface IExercise extends IStructure {
-    details: IDetails
-}
+interface IExercise extends IStructure, IDetails { }
 
 const ExerciseSchema = new Schema<IExercise>({
   info: {

@@ -10,12 +10,32 @@ interface IInfo {
     description: string;
   }
   
-  interface IDballInfo {
+interface IDballInfo {
     vertical: 'ACADEMY' | 'VERT';
     typeOfContent: 'SHOOTING' | 'DRIBBLING' | 'FINISHING' | 'ISO' | 'POST' | 'LOWER' | 'UPPER' | 'CARDIO';
   }
 
-  export interface IStructure {
+interface IRest {
+    minutes: number;
+    seconds: number;
+  }
+  
+  interface IRRS {
+    sets: number;
+    reps: number;
+    rest: IRest;
+  }
+export interface IDetails {
+  details: IRRS
+  }
+
+
+export interface IBooleanInfo {
+    isRecent: boolean,
+    isFeatured: boolean
+  }
+
+export interface IStructure {
     info: IInfo;
     dballInfo: IDballInfo;
   }
