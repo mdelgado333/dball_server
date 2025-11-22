@@ -26,6 +26,27 @@ export default(router: express.Router) => {
 
     })
 
+    router.get('/cycles/:id', async (req: express.Request, res: express.Response) => {
+
+        const { id } = req.params
+        
+        try {
+            
+            const cycle = await Cycle.findById(id)
+                .populate('workouts', 'info title')
+                .exec()
+
+            !cycle
+                ? res.status(404).json({ message: 'Cycle not found' })
+                : res.status(200).json(cycle)
+    
+        } catch (error) {
+            console.log('Error fetching unit: ', error)
+            res.sendStatus(500).json({ message: 'Internal server error' })
+        }
+
+    })
+
     router.post('/cycles/newCycle', async (req: express.Request, res: express.Response) => {
     
         const { title, subtitle, description, vertical, typeOfContent } = req.body
@@ -62,27 +83,6 @@ export default(router: express.Router) => {
         }
     })
 
-    router.get('/cycles/:id', async (req: express.Request, res: express.Response) => {
-
-        const { id } = req.params
-        
-        try {
-            
-            const cycle = await Cycle.findById(id)
-                .populate('workouts', 'info title')
-                .exec()
-
-            !cycle
-                ? res.status(404).json({ message: 'Cycle not found' })
-                : res.status(200).json(cycle)
-    
-        } catch (error) {
-            console.log('Error fetching unit: ', error)
-            res.sendStatus(500).json({ message: 'Internal server error' })
-        }
-
-    })
-
     router.patch('/cycles/:id', async (req: express.Request, res: express.Response) => {
 
         const { id } = req.params
@@ -116,15 +116,15 @@ export default(router: express.Router) => {
     router.patch('/cycles/:id/addWorkout', async (req: express.Request, res: express.Response) => {
         
         const { id } = req.params
-        const { workout } = req.body
+        const { workoutId, day, week } = req.body
     
         try {
 
-            const workoutId = await Workout.findById(workout)
-            if(!workoutId) res.status(404).json({ message: 'Workout not found'})
+            const addedWorkout = await Workout.findById(workoutId)
+            if(!addedWorkout) res.status(404).json({ message: 'Workout not found'})
     
             const updatedCycle = await Cycle.findByIdAndUpdate(id, {
-                $push : { workouts: workout }
+                $push : { workouts: { workout: workoutId , day: day, week: week  }}
             }, { new: true })
     
             !updatedCycle

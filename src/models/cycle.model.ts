@@ -35,8 +35,16 @@ const CycleSchema = new Schema<ICycle>({
   },
   workouts: [
     {
-      type: Schema.Types.ObjectId,
-      ref: 'Workout' 
+      workout: {
+        type: Schema.Types.ObjectId,
+        ref: 'Workout' 
+      },
+      day: {
+        type: Number
+      }, 
+      week: {
+        type: Number
+      }
     }
   ]
 }, { timestamps: true });  
